@@ -4,11 +4,66 @@ A framework for evaluating LLM outputs, developed by [AlloBrain](https://allobra
 
 ## Installation
 
-You can install AlloLLMEval using pip:
+You can install AlloLLMEval directly from GitHub:
 
 ```bash
-pip install AlloLLMEval
+pip install git+https://github.com/AlloReview/AlloLLMEval.git
 ```
+
+For development installation:
+
+```bash
+git clone https://github.com/AlloReview/AlloLLMEval.git
+cd AlloLLMEval
+pip install -e .[dev]
+```
+
+## Development Workflow
+
+1. **Setup Development Environment**
+
+   ```bash
+   git clone https://github.com/AlloReview/AlloLLMEval.git
+   cd AlloLLMEval
+   pip install -e .[dev]
+   ```
+
+2. **Code Quality Checks**
+
+   Before submitting changes, ensure your code passes all quality checks:
+
+   ```bash
+   # Run flake8 linting
+   flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+   flake8 . --count --max-complexity=10 --max-line-length=88 --statistics
+
+   # Check formatting with black
+   black --check .
+   ```
+
+   To automatically format your code:
+
+   ```bash
+   black .
+   ```
+
+3. **Making Changes**
+
+   - Create a new branch for your changes
+   - Make your changes
+   - Run quality checks (above)
+   - Submit a Pull Request to `main` branch
+
+4. **Release Process**
+   For maintainers to create a new release:
+   ```bash
+   # Tag a new version
+   git tag v1.0.0  # Use semantic versioning
+   git push origin v1.0.0
+   ```
+   This will trigger:
+   - Test workflow
+   - GitHub Release creation
 
 ## CI/CD Pipeline
 
