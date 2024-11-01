@@ -27,7 +27,12 @@ class TestResult:
 class TestRunner:
     """Manages test execution and evaluation"""
 
-    def __init__(self, executor: PromptExecutorBase, evaluator: MetricEvaluatorBase, config: TestConfig):
+    def __init__(
+        self,
+        executor: PromptExecutorBase,
+        evaluator: MetricEvaluatorBase,
+        config: TestConfig,
+    ):
         self.executor = executor
         self.evaluator = evaluator
         self.config = config
@@ -42,15 +47,25 @@ class TestRunner:
         if not isinstance(self.config, TestConfig):
             raise ValueError("Config must be an instance of TestConfig")
 
-    def _merge_configs(self, base_config: TestConfig, override_config: Optional[TestConfig]) -> TestConfig:
+    def _merge_configs(
+        self, base_config: TestConfig, override_config: Optional[TestConfig]
+    ) -> TestConfig:
         """Merge base and override configurations"""
         if not override_config:
             return base_config
 
-        merged_executor_config = {**base_config.executor_config, **override_config.executor_config}
-        merged_metric_config = {**base_config.metric_config, **override_config.metric_config}
+        merged_executor_config = {
+            **base_config.executor_config,
+            **override_config.executor_config,
+        }
+        merged_metric_config = {
+            **base_config.metric_config,
+            **override_config.metric_config,
+        }
 
-        return TestConfig(executor_config=merged_executor_config, metric_config=merged_metric_config)
+        return TestConfig(
+            executor_config=merged_executor_config, metric_config=merged_metric_config
+        )
 
     def _get_metadata(self) -> Dict[str, Any]:
         """Get metadata about the test execution"""
@@ -68,7 +83,9 @@ class TestRunner:
     ) -> TestResult:
         """Run the test with given input and configurations"""
         effective_config = self._merge_configs(self.config, override_config)
-        base_output = self.executor.execute(input_data, effective_config.executor_config)
+        base_output = self.executor.execute(
+            input_data, effective_config.executor_config
+        )
 
         metric_result = self.evaluator.evaluate(
             executor=self.executor,
